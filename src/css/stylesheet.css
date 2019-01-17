@@ -1,0 +1,46 @@
+
+#AnchorPane{
+    -fx-background-color: #3f3e3e;
+}
+
+.button {
+    -fx-background-color: #2b2b2b;
+    -fx-text-fill: white;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.text-field{
+    -fx-background-color: #8a8787;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.table-view{
+    -fx-base: #8a8787;
+    -fx-font-weight: bold;
+}
+
+.button:hover{
+    -fx-background-color: #444444;
+}
+
+.combo-box{
+    -fx-background-color: #8a8787;
+    -fx-font-weight: bold;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: #8a8787;
+    -fx-font-weight: bold;
+}
+
+.combo-box .list-cell:hover{
+    -fx-background-color: #616161 ;
+}
