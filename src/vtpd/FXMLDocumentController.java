@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -92,7 +91,7 @@ public class FXMLDocumentController implements Initializable {
             }
             tableView.setItems(data);
         }
-        catch(Exception e){
+        catch(SQLException e){
               
               System.out.println("Error on Building Data");            
         }
@@ -170,8 +169,7 @@ public class FXMLDocumentController implements Initializable {
                 }
                 tableView.setItems(data1);
                 }
-            catch(Exception e){
-              e.printStackTrace();
+            catch(SQLException e){
               System.out.println("Error on Building Data");            
             }   
         }
