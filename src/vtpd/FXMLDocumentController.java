@@ -2,6 +2,7 @@ package vtpd;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -49,9 +50,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML private Label yes_no;
     
     
-    
+    public Connection getConnection() throws ClassNotFoundException, SQLException{   
+           Class.forName("com.mysql.cj.jdbc.Driver");
+           return DriverManager.getConnection("jdbc:mysql://localhost:3306/baza?useLegacyDatetimeCode=false&serverTimezone=Europe/Amsterdam&useSSL=false","user","admin"); 
+    }
     
     public Connection con;
+    
     
     void tableShowRefresh(){
         
@@ -62,14 +67,12 @@ public class FXMLDocumentController implements Initializable {
         mark_name.setCellValueFactory(                
             new PropertyValueFactory<PartsPOJO,String>("markName"));   
         model_name.setCellValueFactory(                
-            new PropertyValueFactory<PartsPOJO,String>("modelName")); 
-        DBConnect dbc = new DBConnect();
+            new PropertyValueFactory<PartsPOJO,String>("modelName"));
         try{
-            con = dbc.getConnection();
+            con = getConnection();
             tableData();
         }
-        catch(ClassNotFoundException | SQLException ce){
-            
+        catch(ClassNotFoundException | SQLException ce){ 
         }
     }
    
@@ -150,9 +153,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void searchPart (ActionEvent actionEvent) throws SQLException{
         
-        DBConnect dbc = new DBConnect();
         try{
-            con = dbc.getConnection();
+            con = getConnection();
             ObservableList<PartsPOJO> data1 = FXCollections.observableArrayList();
             try{
                 String searching = searching_text.getText();
