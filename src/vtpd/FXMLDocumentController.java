@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -142,6 +143,7 @@ public class FXMLDocumentController implements Initializable {
               System.out.println("Error");
               throw e;
         }
+        chosen_id.clear();
         tableShowRefresh();
     }
     
@@ -280,19 +282,15 @@ public class FXMLDocumentController implements Initializable {
     }
     
     
+    public void maxLength(TextField field, int maxCh){
+        field.setOnKeyTyped(event ->{
+            int maxCharacters = maxCh;
+            if(field.getText().length() >= maxCharacters) event.consume();
+        });
+    }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-       
-        tableShowRefresh();
-        
-        try {
-            markChoice();
-        } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
+    
+    public void intOnly(TextField field){
         UnaryOperator<Change> filter = change -> {
         String text = change.getText();
 
@@ -300,10 +298,34 @@ public class FXMLDocumentController implements Initializable {
 
         return null;
         };
-        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
-        TextFormatter<String> textFormatter2 = new TextFormatter<>(filter);
-        chosen_id.setTextFormatter(textFormatter);
-        new_amount.setTextFormatter(textFormatter2);
+ 
+        field.setTextFormatter(new TextFormatter<>(filter));
+    }
+    
+    
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+       
+        //AUTOMATYCZNE WYSIWETLENIE ZAWARTOSCI TABELI PO URUCHOMIENIU GUI
+        tableShowRefresh();
+        
+        //WYPELNIENIE ZAWARTOSCI COMBOBOXA MARKI
+        try {
+            markChoice();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //ZABLOKOWANIE WPISYWANIA WSZYSTKIEGO INNEGO NIZ CYFRY 
+        intOnly(chosen_id);
+        intOnly(new_amount);
+        
+        //WYWOLANIE FUNKCJI OKRESLAJACEJ MAX ILOSC WPROWADZANYCH ZNAKOW
+        maxLength(chosen_id, 2);
+        maxLength(new_part, 40);
+        maxLength(searching_text, 40);
+        maxLength(new_amount, 3);
         
     }    
     
